@@ -14,6 +14,9 @@ const WifiInput: React.FC = () => {
     return (
         <View style={styles.container}>
             <BottomOpenButton onPress={handleOpenButtonPress}/>
+            <View style={styles.container}>
+                <Text>Test</Text>
+            </View>
             <BottomSheet isOpen={isOpen} onDismiss={handleOpenButtonPress}/>
         </View>    
     );

@@ -10,16 +10,18 @@ interface BottomSheetProps{
 const BottomSheet: React.FC<BottomSheetProps> = ({isOpen, onDismiss}) => {
 
     return (
-        <Modal
-            isVisible={isOpen}
-            style={styles.bottomModal}
-            onBackdropPress={onDismiss}
-            onBackButtonPress={onDismiss}
-        >
-            <View style={styles.bottomModalContent}>
-                <Text>This is the content of the Button Sheet.</Text>
-            </View>
-        </Modal>
+        <View>
+            <Modal
+                isVisible={isOpen}
+                style={styles.bottomModal}
+                onBackdropPress={onDismiss}
+                onBackButtonPress={onDismiss}
+            >
+                <View style={styles.bottomModalContent}>
+                    <Text>This is the content of the Button Sheet.</Text>
+                </View>
+            </Modal>
+        </View>
     );
 };
 
