@@ -1,6 +1,7 @@
-import React, {useState} from "react";
-import {View, StyleSheet, Text} from 'react-native';
+import React, {useState, useRef} from "react";
+import {View, StyleSheet, Text, Animated} from 'react-native';
 import Modal from "react-native-modal";
+import { PanGestureHandler, State } from "react-native-gesture-handler";
 
 interface BottomSheetProps{
     isOpen: boolean;
@@ -9,19 +10,47 @@ interface BottomSheetProps{
 
 const BottomSheet: React.FC<BottomSheetProps> = ({isOpen, onDismiss}) => {
 
+    const translateY = useRef(new Animated.Value(0)).current;
+
+    const handleDownEvent = (event: any) => {
+
+        const translationY = event.nativeEvent.translationY;
+        
+        console.log("Test", "Gesture recognize");
+        if (event.nativeEvent.state === State.ACTIVE){
+            if (translationY > 50 && translationY < 150) {
+                console.log("Test", "Gesture recognize");
+                onDismiss();
+            }
+        }
+        
+        Animated.spring(translateY, {
+            toValue: 0,
+            useNativeDriver: false,
+        }).start();
+    };
+
     return (
-        <View>
-            <Modal
-                isVisible={isOpen}
-                style={styles.bottomModal}
-                onBackdropPress={onDismiss}
-                onBackButtonPress={onDismiss}
+        <Animated.View>
+            <PanGestureHandler
+                onGestureEvent={handleDownEvent}
+                onHandlerStateChange={handleDownEvent}
+                simultaneousHandlers={undefined}
             >
-                <View style={styles.bottomModalContent}>
-                    <Text>This is the content of the Button Sheet.</Text>
+                <View style={{backgroundColor: 'black'}}>
+                    <Modal
+                        isVisible={isOpen}
+                        style={styles.bottomModal}
+                        onBackdropPress={onDismiss}
+                        onBackButtonPress={onDismiss}
+                    >
+                        <View style={styles.bottomModalContent}>
+                            <Text>This is the content of the Button Sheet.</Text>
+                        </View>       
+                    </Modal>
                 </View>
-            </Modal>
-        </View>
+            </PanGestureHandler>
+        </Animated.View>
     );
 };
 
